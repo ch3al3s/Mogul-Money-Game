@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOGUL — The Money Race</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="bg-ambient" aria-hidden="true"><i></i><i></i></div>
+<div id="cinema-overlay" aria-hidden="true"></div>
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div class="brand-text">MOGUL<span>The Money Race</span></div>
+    </div>
+    <nav id="nav">
+      <button class="nav-btn active" data-view="dashboard"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="3.5" width="7" height="9" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.6"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.6"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.6"/></svg></span>Dashboard<span class="nav-key">1</span></button>
+      <button class="nav-btn" data-view="market"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19 L9 13 L13 16 L20 6"/><path d="M15 6 h5 v5"/></svg></span>Market<span class="nav-key">2</span></button>
+      <button class="nav-btn" data-view="assets"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21 h18 M5 21 V8 l7 -5 7 5 v13 M9.5 21 v-5 h5 v5 M9.5 11 h.01 M14.5 11 h.01"/></svg></span>Assets<span class="nav-key">3</span></button>
+      <button class="nav-btn" data-view="portfolio"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5 V12 l6 6"/></svg></span>Wealth<span class="nav-key">4</span></button>
+      <button class="nav-btn" data-view="casino"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5 L21.5 12 L12 21.5 L2.5 12 Z"/><path d="M12 8 v.01 M12 16 v.01 M8 12 h.01 M16 12 h.01"/></svg></span>Casino<span class="nav-key">5</span></button>
+      <button class="nav-btn" data-view="rivals"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20 L15 5 h4 v4 L9 20 Z M5 20 h4 M4 13 l7 7"/></svg></span>Rivals<span class="nav-key">6</span></button>
+      <button class="nav-btn" data-view="awards"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="9" r="5.5"/><path d="M8.5 13.5 L7 21 l5 -2.5 L17 21 l-1.5 -7.5"/></svg></span>Awards<span class="nav-key">7</span></button>
+    </nav>
+    <div class="side-foot">
+      <button id="profile-chip" title="Edit character">
+        <div id="hud-avatar"></div>
+        <div class="pc-text">
+          <span id="hud-name">Player</span>
+          <small>Edit character</small>
+        </div>
+      </button>
+      <div id="mogul-stats" title="Your Mogul profile — moved by life events, the years, and the tables"></div>
+      <div class="foot-row">
+        <button id="btn-sound" class="icon-btn" title="Toggle sound"><span id="sound-ic">🔊</span> Sound</button>
+        <button id="btn-shortcuts" class="icon-btn" title="Keyboard shortcuts (?)">⌨ Keys</button>
+      </div>
+      <div class="foot-row">
+        <button id="btn-studio" class="icon-btn" title="Customize your look">✦ Customize</button>
+      </div>
+      <div class="foot-row">
+        <button id="btn-share" class="icon-btn share-cta" title="Send your card or a challenge to a friend">Share</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div id="main">
+    <header id="topbar">
+      <div class="tb-left">
+        <h1 id="view-title">Dashboard</h1>
+        <div class="year-track" title="Season progress">
+          <div class="yt-bar"><div id="yt-fill"></div></div>
+          <span id="hud-year">Year 0 of 10</span>
+        </div>
+      </div>
+      <div class="tb-right">
+        <div class="kpi"><small>Cash</small><b id="hud-cash">$0</b></div>
+        <div class="kpi"><small>Net worth</small><b id="hud-networth">$0</b><span id="nw-delta" class="delta-chip"></span></div>
+        <button id="btn-simulate"><span class="sim-label">Simulate Year <span>→</span></span></button>
+        <button id="btn-skip5" class="skip-btn" title="Fast-forward 5 years">⏩<small>5y</small></button>
+      </div>
+    </header>
+
+    <div id="ticker"><span class="tk-label">WIRE</span><span class="tk-scroll"><span id="ticker-text"></span></span></div>
+
+    <main id="views">
+
+      <!-- DASHBOARD -->
+      <section id="view-dashboard" class="view active">
+        <div id="dash-greet" class="dash-greet"></div>
+        <div class="xp-wrap" title="Progress to your next title">
+          <div class="xp-bar"><div id="xp-fill"></div></div>
+          <span id="xp-label" class="xp-label"></span>
+        </div>
+        <div id="mogul-profile" class="card mogul-profile">
+          <div class="mp-head"><h3>Mogul Profile</h3><span class="pill">shaped by your choices</span></div>
+          <div id="mogul-stats-dash" class="mp-grid"></div>
+        </div>
+        <div class="stat-cards">
+          <div class="scard"><small>Net worth</small><b id="d-networth">$0</b><span id="d-networth-chg" class="chg"></span></div>
+          <div class="scard"><small>Cash available</small><b id="d-cash">$0</b><span class="chg muted" id="d-invested"></span></div>
+          <div class="scard"><small>Annual income</small><b id="d-income">$0</b><span class="chg muted">from yields</span></div>
+          <div class="scard"><small>Season P&amp;L</small><b id="d-roi">0%</b><span class="chg muted" id="d-regime"></span></div>
+        </div>
+        <div class="dash-grid">
+          <div class="card chart-card">
+            <div class="card-head"><h3>Net worth</h3><span class="pill" id="d-best">Best: $0</span></div>
+            <svg id="nw-chart" viewBox="0 0 640 240" preserveAspectRatio="none"></svg>
+            <div id="nw-tip" class="chart-tip"></div>
+            <div class="axis-row"><span>2067</span><span>2167</span></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Allocation</h3></div>
+            <div id="d-alloc"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Missions</h3><span class="pill" id="ms-count"></span></div>
+            <div id="d-missions"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Insights</h3><span class="pill">post-year debrief</span></div>
+            <div id="d-insights"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Last year's movers</h3></div>
+            <div id="d-movers" class="movers-list"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Watchlist</h3><span class="pill">★ from Market</span></div>
+            <div id="d-watchlist"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Headlines</h3><button class="pill pill-btn" id="btn-archive">View all</button></div>
+            <div id="d-news" class="news-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MARKET -->
+      <section id="view-market" class="view">
+        <div class="market-tools">
+          <input type="search" id="mkt-search" placeholder="Search the market — try “Lagos”, “gold”, “meme”…">
+          <div id="country-filters" class="chip-row" style="margin-bottom:10px"></div>
+          <div id="cat-filters" class="chip-row"></div>
+        </div>
+        <div class="card table-card">
+          <table id="mkt-table">
+            <thead>
+              <tr>
+                <th class="star-col" aria-label="Watchlist"></th>
+                <th data-sort="name" class="sortable">Asset</th>
+                <th data-sort="price" class="sortable num">Price</th>
+                <th data-sort="chg" class="sortable num">1Y</th>
+                <th class="trend-col">Trend</th>
+                <th data-sort="yield" class="sortable num">Yield</th>
+                <th data-sort="owned" class="sortable num">Position</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="mkt-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ASSETS — the ownable realm: property, businesses, collectibles -->
+      <section id="view-assets" class="view">
+        <div class="market-tools">
+          <div id="est-countries" class="chip-row" style="margin-bottom:10px"></div>
+          <div id="est-filters" class="chip-row"></div>
+        </div>
+        <div id="assets-grid" class="est-grid"></div>
+      </section>
+
+      <!-- PORTFOLIO / WEALTH -->
+      <section id="view-portfolio" class="view">
+        <div class="card">
+          <div class="card-head"><h3>Your empire</h3><span class="pill" id="emp-count"></span></div>
+          <div id="empire"></div>
+        </div>
+        <div class="card bank-card">
+          <div class="card-head"><h3>The Bank</h3><span class="pill">8%/yr · borrow up to 50% of net worth</span></div>
+          <div class="bank-row">
+            <div class="kpi"><small>Debt</small><b id="bk-debt">$0</b></div>
+            <div class="kpi"><small>Available credit</small><b id="bk-cap">$0</b></div>
+            <div class="bank-actions">
+              <div class="bet-line bank-line"><span>$</span><input type="number" id="bk-amount" value="100000" min="1000" aria-label="Loan amount"></div>
+              <button class="btn primary" id="bk-borrow">Borrow</button>
+              <button class="btn" id="bk-repay">Repay</button>
+            </div>
+          </div>
+          <p class="sub bank-warn" id="bk-warn">Leverage cuts both ways. If debt passes 65% of your assets at year-end, the bank sells your worst positions at a 3% haircut. It will not apologise.</p>
+        </div>
+        <div class="stat-cards">
+          <div class="scard"><small>Invested</small><b id="p-invested">$0</b><span class="chg muted" id="p-positions"></span></div>
+          <div class="scard"><small>Unrealized P&amp;L</small><b id="p-pnl">$0</b><span id="p-pnlpct" class="chg"></span></div>
+          <div class="scard"><small>Annual income</small><b id="p-income">$0</b><span class="chg muted">paid each year</span></div>
+          <div class="scard"><small>Cash</small><b id="p-cash">$0</b><span class="chg muted">uninvested</span></div>
+        </div>
+        <div class="card table-card">
+          <table id="pf-table">
+            <thead>
+              <tr><th>Position</th><th class="num">Qty</th><th class="num">Avg cost</th><th class="num">Price</th><th class="num">Value</th><th class="num">P&amp;L</th><th></th></tr>
+            </thead>
+            <tbody id="pf-body"></tbody>
+          </table>
+          <div id="pf-empty" class="empty hidden"></div>
+        </div>
+      </section>
+
+      <!-- CASINO -->
+      <section id="view-casino" class="view casino-room">
+        <canvas id="casino-bg" aria-hidden="true"></canvas>
+        <div id="casino-lobby">
+          <div class="lobby-header glass">
+            <div class="lh-titles">
+              <h2 class="lobby-title">Mogul Fortune Lobby</h2>
+              <p class="lobby-sub">Fake-money risk simulator. Virtual chips only. No real money.</p>
+            </div>
+            <div class="lobby-bal">
+              <div class="bal-chip"><small>Fortune Chips</small><b id="cas-balance">$0</b></div>
+              <div class="bal-chip"><small>Net worth</small><b id="lobby-nw">$0</b></div>
+              <div class="bal-chip"><small>Casino net</small><b id="cas-net">$0</b></div>
+              <div id="lobby-avatar" class="lobby-avatar"></div>
+            </div>
+          </div>
+
+          <div class="lobby-hero glass hero-border">
+            <div class="hero-main">
+              <span class="hero-kicker">THE FORTUNE FLOOR</span>
+              <h1 class="hero-title">Enter the Fortune Floor</h1>
+              <p class="hero-sub">Test luck, strategy, and discipline using virtual chips inside Mogul's simulated risk arena.</p>
+              <div class="hero-actions">
+                <button id="btn-daily-chips" class="btn primary">Claim daily chips</button>
+                <button id="btn-riskiq" class="btn">View Risk IQ</button>
+              </div>
+              <p class="hero-fine">No real money · No prizes · No cash-out</p>
+            </div>
+            <div class="hero-side">
+              <span class="sim-badge">SIMULATION ONLY</span>
+              <small>Your chips</small>
+              <div id="hero-chips" class="hero-chips">$0</div>
+            </div>
+          </div>
+
+          <div class="lobby-section-title">Choose Your Table</div>
+          <div id="lobby-games" class="lobby-games"></div>
+
+          <div class="lobby-cols">
+            <div class="glass lobby-panel" id="riskiq-panel">
+              <div class="lp-head"><h3>Risk IQ</h3><span class="lp-tag">discipline analytics</span></div>
+              <div id="risk-iq"></div>
+            </div>
+            <div class="glass lobby-panel">
+              <div class="lp-head"><h3>Live Mogul Floor</h3><span class="live-dot"></span></div>
+              <div id="live-feed" class="live-feed"></div>
+            </div>
+          </div>
+
+          <div class="lobby-section-title">Global Fortune Rooms</div>
+          <div id="lobby-rooms" class="lobby-rooms"></div>
+
+          <div class="sim-banner">This is a fake-money simulation. Mogul does not offer real-money gambling, prizes, cash-out, crypto rewards, or gambling services.</div>
+        </div>
+
+        <div id="casino-table-view" class="hidden">
+          <div class="table-topbar">
+            <button id="btn-back-lobby" class="btn back-btn">← Back to Lobby</button>
+            <div class="table-bal"><small>Fortune Chips</small><b id="table-balance">$0</b></div>
+          </div>
+          <div id="casino-stage">
+
+          <div class="card cas-card poker-card" data-table="poker">
+            <div class="card-head"><h3>Caribbean Stud</h3><span class="pill">ante + raise 2× · dealer qualifies A-K</span></div>
+            <div class="dealer-strip"><div class="dealer-av" id="dav-poker"></div><div class="dealer-meta"><span class="dealer-name" id="dnm-poker"></span><span class="dealer-bubble" id="dsay-poker">Ante up and I'll deal.</span></div></div>
+            <div class="bj-table poker-table">
+              <div class="bj-row"><span class="bj-who">Dealer <b id="cs-dname"></b></span><div id="cs-dealer" class="bj-hand"></div></div>
+              <div class="bj-row"><span class="bj-who">You <b id="cs-pname"></b></span><div id="cs-player" class="bj-hand"></div></div>
+            </div>
+            <div id="cs-result" class="cas-result">Beat the Baron's hand to win.</div>
+            <div class="bet-line"><span>$</span><input type="number" id="cs-ante" value="10000" min="100" aria-label="Ante"></div>
+            <div class="chips-tray" data-for="cs-ante"></div>
+            <div class="bet-row">
+              <button class="cas-btn gold" id="btn-cs-deal">Deal</button>
+              <button class="cas-btn green" id="btn-cs-play" disabled>Raise 2×</button>
+              <button class="cas-btn red" id="btn-cs-fold" disabled>Fold</button>
+            </div>
+            <div class="paytable poker-pay"><span>Royal 100×</span><span>SF 50×</span><span>Quads 20×</span><span>Full 7×</span><span>Flush 5×</span></div>
+          </div>
+          <div class="card cas-card bj-card" data-table="blackjack">
+            <div class="card-head"><h3>Blackjack</h3><span class="pill">3:2 · dealer stands 17</span></div>
+            <div class="dealer-strip"><div class="dealer-av" id="dav-blackjack"></div><div class="dealer-meta"><span class="dealer-name" id="dnm-blackjack"></span><span class="dealer-bubble" id="dsay-blackjack">Take a seat.</span></div></div>
+            <div class="bj-table">
+              <div class="bj-row"><span class="bj-who">Dealer <b id="bj-dv"></b></span><div id="bj-dealer" class="bj-hand"></div></div>
+              <div class="bj-row"><span class="bj-who">You <b id="bj-pv"></b></span><div id="bj-player" class="bj-hand"></div></div>
+            </div>
+            <div id="bj-result" class="cas-result">Beat the dealer to 21</div>
+            <div class="bet-line"><span>$</span><input type="number" id="bj-bet" value="10000" min="100" aria-label="Blackjack bet"></div>
+            <div class="chips-tray" data-for="bj-bet"></div>
+            <div class="bet-row">
+              <button class="cas-btn gold" id="btn-bj-deal">Deal</button>
+              <button class="cas-btn black" id="btn-bj-hit" disabled>Hit</button>
+              <button class="cas-btn black" id="btn-bj-stand" disabled>Stand</button>
+              <button class="cas-btn red" id="btn-bj-double" disabled>Double</button>
+            </div>
+          </div>
+          <div class="card cas-card" data-table="roulette">
+            <div class="card-head"><h3>Roulette</h3><span class="pill">RED/BLACK ×2 · GREEN ×35</span></div>
+            <div class="dealer-strip"><div class="dealer-av" id="dav-roulette"></div><div class="dealer-meta"><span class="dealer-name" id="dnm-roulette"></span><span class="dealer-bubble" id="dsay-roulette">Place your bets.</span></div></div>
+            <div class="wheel-wrap">
+              <div class="wheel-rim"></div>
+              <div class="wheel-pointer"></div>
+              <div id="roulette-wheel"><div id="roulette-ring"></div><div class="wheel-sep"></div><div class="wheel-cone"></div><div class="wheel-hub"><i class="hub-spokes"></i></div></div>
+              <div id="roulette-orbit"><div id="roulette-ball"></div></div>
+            </div>
+            <div id="roulette-history" class="roul-history" aria-label="Recent results"></div>
+            <div id="roulette-result" class="cas-result">Place your bet</div>
+            <div class="bet-line"><span>$</span><input type="number" id="roulette-bet" value="10000" min="100" aria-label="Roulette bet"></div>
+            <div class="chips-tray" data-for="roulette-bet"></div>
+            <div class="felt-grid">
+              <button class="felt-cell red" data-roul="red">RED<small>×2</small></button>
+              <button class="felt-cell black" data-roul="black">BLACK<small>×2</small></button>
+              <button class="felt-cell green" data-roul="green">0<small>×35</small></button>
+              <button class="felt-cell" data-roul="odd">ODD<small>×2</small></button>
+              <button class="felt-cell" data-roul="even">EVEN<small>×2</small></button>
+              <button class="felt-cell" data-roul="low">1–18<small>×2</small></button>
+              <button class="felt-cell" data-roul="high">19–36<small>×2</small></button>
+              <button class="felt-cell wide" data-roul="d1">1st 12<small>×3</small></button>
+              <button class="felt-cell wide" data-roul="d2">2nd 12<small>×3</small></button>
+              <button class="felt-cell wide" data-roul="d3">3rd 12<small>×3</small></button>
+            </div>
+          </div>
+          <div class="card cas-card" data-table="slots">
+            <div class="card-head"><h3>Mega Slots</h3><span class="pill">💎💎💎 ×20</span></div>
+            <div class="dealer-strip"><div class="dealer-av" id="dav-slots"></div><div class="dealer-meta"><span class="dealer-name" id="dnm-slots"></span><span class="dealer-bubble" id="dsay-slots">Feed the machine.</span></div></div>
+            <div class="slot-machine">
+              <div class="slot-window">
+                <div id="slot-reels"></div>
+                <div class="payline" id="payline"></div>
+              </div>
+              <div class="paytable"><span>💎💎💎 ×20</span><span>triple ×8</span><span>pair ×1.6</span></div>
+            </div>
+            <div id="slot-result" class="cas-result">Triple to win big</div>
+            <div class="bet-line"><span>$</span><input type="number" id="slot-bet" value="5000" min="100" aria-label="Slots bet"></div>
+            <div class="chips-tray" data-for="slot-bet"></div>
+            <div class="bet-row"><button class="cas-btn gold" id="btn-slots">SPIN</button></div>
+          </div>
+          <div class="card cas-card" data-table="coin">
+            <div class="card-head"><h3>Double or Nothing</h3><span class="pill">50/50 · ×2 per flip</span></div>
+            <div class="dealer-strip"><div class="dealer-av" id="dav-coin"></div><div class="dealer-meta"><span class="dealer-name" id="dnm-coin"></span><span class="dealer-bubble" id="dsay-coin">Call it in the air.</span></div></div>
+            <div id="coin-face"></div>
+            <div id="streak-ladder" class="streak-ladder" aria-label="Streak multipliers"></div>
+            <div id="coin-result" class="cas-result">Build a streak, cash out before the bust</div>
+            <div class="bet-line"><span>$</span><input type="number" id="coin-bet" value="10000" min="100" aria-label="Coin flip bet"></div>
+            <div class="chips-tray" data-for="coin-bet"></div>
+            <div class="bet-row">
+              <button class="cas-btn gold" id="btn-flip">Flip</button>
+              <button class="cas-btn green" id="btn-cashout" disabled>Cash out</button>
+            </div>
+          </div>
+                  <div class="card cas-card" data-table="dice">
+            <div class="card-head"><h3>Dice</h3><span class="pill">over/under 7 ×2 · exactly 7 ×5</span></div>
+            <div class="dealer-strip"><div class="dealer-av" id="dav-dice"></div><div class="dealer-meta"><span class="dealer-name" id="dnm-dice"></span><span class="dealer-bubble" id="dsay-dice">Pick a side.</span></div></div>
+            <div class="dice-stage"><div class="die" id="die1"></div><div class="die" id="die2"></div></div>
+            <div id="dice-result" class="cas-result">Over 7, under 7, or exactly 7?</div>
+            <div class="bet-line"><span>$</span><input type="number" id="dice-bet" value="10000" min="100" aria-label="Dice bet"></div>
+            <div class="chips-tray" data-for="dice-bet"></div>
+            <div class="bet-row">
+              <button class="cas-btn green" data-dice="under">Under 7</button>
+              <button class="cas-btn gold" data-dice="seven">Exactly 7</button>
+              <button class="cas-btn red" data-dice="over">Over 7</button>
+            </div>
+          </div>
+          <div class="card cas-card" data-table="crash">
+            <div class="card-head"><h3>Crash</h3><span class="pill">ride the multiplier · exit before it breaks</span></div>
+            <div class="dealer-strip"><div class="dealer-av" id="dav-crash"></div><div class="dealer-meta"><span class="dealer-name" id="dnm-crash"></span><span class="dealer-bubble" id="dsay-crash">Nerve is the whole game.</span></div></div>
+            <div class="crash-stage">
+              <svg id="crash-graph" viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <div id="crash-mult" class="crash-mult">1.00×</div>
+            </div>
+            <div id="crash-result" class="cas-result">Cash out before the crash.</div>
+            <div class="bet-line"><span>$</span><input type="number" id="crash-bet" value="10000" min="100" aria-label="Crash bet"></div>
+            <div class="chips-tray" data-for="crash-bet"></div>
+            <div class="bet-row">
+              <button class="cas-btn gold" id="btn-crash-start">Launch</button>
+              <button class="cas-btn green" id="btn-crash-out" disabled>Cash Out</button>
+            </div>
+          </div>
+          </div>
+        </div>
+</section>
+
+      <!-- RIVALS -->
+      <section id="view-rivals" class="view">
+        <div class="card">
+          <div class="card-head"><h3>Leaderboard</h3><span class="pill" id="rv-count"></span></div>
+          <div id="rivals-list"></div>
+        </div>
+        <div class="rivals-grid">
+          <div class="card">
+            <div class="card-head"><h3>Challenge a friend</h3></div>
+            <p class="sub">Locks the market seed — you both live the exact same 10 years of events. Same luck, pure skill.</p>
+            <button id="btn-challenge" class="btn primary">Create challenge code</button>
+            <textarea id="challenge-code" readonly placeholder="Your challenge code will appear here" aria-label="Challenge code"></textarea>
+            <div class="divider"></div>
+            <textarea id="accept-code" placeholder="Paste a friend's challenge code" aria-label="Accept challenge code"></textarea>
+            <button id="btn-accept" class="btn">Accept challenge</button>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Mogul Cards</h3></div>
+            <p class="sub">Your card carries your name, character, and net worth. Swap cards to fill the leaderboard.</p>
+            <button id="btn-card" class="btn primary">Copy my Mogul Card</button>
+            <textarea id="card-code" readonly placeholder="Your card will appear here" aria-label="Your Mogul Card"></textarea>
+            <div class="divider"></div>
+            <textarea id="import-card" placeholder="Paste a friend's Mogul Card" aria-label="Import a Mogul Card"></textarea>
+            <button id="btn-import-card" class="btn">Add friend's card</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- AWARDS -->
+      <section id="view-awards" class="view">
+        <div class="card">
+          <div class="card-head"><h3>Career stats</h3></div>
+          <div id="stats-strip" class="stats-strip"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Achievements</h3><span class="pill" id="ach-count"></span></div>
+          <div id="achievement-list" class="ach-grid"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Past seasons</h3></div>
+          <div id="seasons-list"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MOBILE NAV -->
+  <nav id="mobile-nav">
+    <button class="mnav-btn active" data-view="dashboard"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="3.5" width="7" height="9" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.6"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.6"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.6"/></svg></span><span>Home</span></button>
+    <button class="mnav-btn" data-view="market"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19 L9 13 L13 16 L20 6"/><path d="M15 6 h5 v5"/></svg></span><span>Market</span></button>
+    <button class="mnav-btn" data-view="assets"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21 h18 M5 21 V8 l7 -5 7 5 v13 M9.5 21 v-5 h5 v5 M9.5 11 h.01 M14.5 11 h.01"/></svg></span><span>Assets</span></button>
+    <button class="mnav-btn" data-view="portfolio"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5 V12 l6 6"/></svg></span><span>Wealth</span></button>
+    <button class="mnav-btn" data-view="casino"><span class="nav-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.5 L21.5 12 L12 21.5 L2.5 12 Z"/><path d="M12 8 v.01 M12 16 v.01 M8 12 h.01 M16 12 h.01"/></svg></span><span>Casino</span></button>
+  </nav>
+
+  <!-- ASSET DETAIL MODAL -->
+  <div id="asset-modal" class="overlay hidden">
+    <div class="modal am-modal">
+      <button class="modal-x" id="asset-x" aria-label="Close">✕</button>
+      <div id="am-banner" class="am-banner" aria-hidden="true"></div>
+      <div class="am-head">
+        <span id="am-emoji"></span>
+        <div><h2 id="am-name"></h2><div id="am-meta" class="sub"></div></div>
+        <div class="am-price"><b id="am-price"></b><span id="am-chg" class="chg"></span></div>
+      </div>
+      <div class="am-chart-wrap">
+        <svg id="am-chart" viewBox="0 0 560 160" preserveAspectRatio="none"></svg>
+        <div id="am-tip" class="chart-tip"></div>
+      </div>
+      <div id="am-stats" class="am-stats"></div>
+      <div id="am-position" class="am-position"></div>
+      <div class="trade-row">
+        <div class="qty-box">
+          <button id="qty-minus" aria-label="Decrease quantity">−</button>
+          <input type="number" id="trade-qty" value="1" min="1" aria-label="Quantity">
+          <button id="qty-plus" aria-label="Increase quantity">+</button>
+        </div>
+        <div class="quick-row">
+          <button class="chip" data-spend="0.25">25%</button>
+          <button class="chip" data-spend="0.5">50%</button>
+          <button class="chip" data-spend="1">Max</button>
+        </div>
+      </div>
+      <div id="trade-estimate" class="sub center"></div>
+      <div class="trade-actions">
+        <button id="btn-buy" class="btn buy">Buy</button>
+        <button id="btn-sell" class="btn sell">Sell</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- YEAR RECAP -->
+  <div id="sim-overlay" class="overlay hidden">
+    <div class="modal recap">
+      <span class="recap-skip" id="recap-skip-hint">click to skip</span>
+      <div class="recap-head">
+        <h2 id="sim-title">Year 1</h2>
+        <div id="sim-regime" class="regime-tag"></div>
+        <div id="sim-flavor" class="regime-flavor"></div>
+      </div>
+      <div id="sim-headlines"></div>
+      <div id="sim-movers" class="recap-movers"></div>
+      <div id="sim-summary"></div>
+      <div class="recap-foot hidden" id="recap-foot">
+        <svg class="recap-spark" id="recap-spark" viewBox="0 0 120 34" preserveAspectRatio="none"></svg>
+        <button id="sim-close" class="btn primary">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEASON END -->
+  <div id="end-overlay" class="overlay hidden">
+    <div class="modal center">
+      <div class="finale-stage">
+        <h2 id="end-title">Season complete</h2>
+        <div id="end-avatar"></div>
+        <div id="end-ribbon" class="end-ribbon"></div>
+        <div id="end-stats"></div>
+        <div id="end-rank"></div>
+        <button id="btn-obituary" class="btn obituary-btn">🪦 Share obituary card</button>
+        <button id="btn-end-card" class="btn">Copy final Mogul Card</button>
+        <button id="btn-new-season" class="btn primary">Start new season</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEAD-TO-HEAD -->
+  <div id="h2h-modal" class="overlay hidden">
+    <div class="modal center">
+      <button class="modal-x" id="h2h-x" aria-label="Close">✕</button>
+      <h2>Head to head</h2>
+      <div id="h2h-body"></div>
+    </div>
+  </div>
+
+  <!-- NEWS ARCHIVE -->
+  <div id="archive-modal" class="overlay hidden">
+    <div class="modal">
+      <button class="modal-x" id="archive-x" aria-label="Close">✕</button>
+      <h2>The season so far</h2>
+      <p class="sub">Every headline, every regime. History doesn't repeat, but it does gloat.</p>
+      <div id="archive-body"></div>
+    </div>
+  </div>
+
+  <!-- KEYBOARD SHORTCUTS -->
+  <div id="shortcuts-modal" class="overlay hidden">
+    <div class="modal center">
+      <button class="modal-x" id="shortcuts-x" aria-label="Close">✕</button>
+      <h2>Shortcuts</h2>
+      <div class="sc-grid">
+        <div class="sc-row"><span>Views</span><span><kbd>1</kbd>–<kbd>7</kbd></span></div>
+        <div class="sc-row"><span>Simulate year</span><kbd>S</kbd></div>
+        <div class="sc-row"><span>Search market</span><kbd>/</kbd></div>
+        <div class="sc-row"><span>Move in table</span><span><kbd>↑</kbd> <kbd>↓</kbd></span></div>
+        <div class="sc-row"><span>Open focused row</span><kbd>Enter</kbd></div>
+        <div class="sc-row"><span>Close / dismiss</span><kbd>Esc</kbd></div>
+        <div class="sc-row"><span>This overlay</span><kbd>?</kbd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMIZATION STUDIO -->
+  <div id="studio-modal" class="overlay hidden">
+    <div class="modal">
+      <button class="modal-x" id="studio-x" aria-label="Close">✕</button>
+      <h2>Customize</h2>
+      <p class="sub">Make the app yours. Some looks are earned — the game unlocks them as you play.</p>
+      <div id="studio-body"></div>
+    </div>
+  </div>
+
+  <!-- SHARE HUB -->
+  <div id="share-modal" class="overlay hidden">
+    <div class="modal center">
+      <button class="modal-x" id="share-x" aria-label="Close">✕</button>
+      <h2>Bring a rival</h2>
+      <p class="sub" id="share-sub"></p>
+      <button id="share-challenge" class="btn primary">⚔ New challenge — same market, pure skill</button>
+      <button id="share-card" class="btn">Send my Mogul Card</button>
+      <textarea id="share-code" readonly placeholder="Your code appears here — it's already on your clipboard"></textarea>
+      <button id="share-image" class="btn">🖼 Card image — download / share</button>
+      <button id="share-native" class="btn hidden">Share…</button>
+    </div>
+  </div>
+
+  <!-- WHILE YOU WERE AWAY -->
+  <div id="away-modal" class="overlay hidden">
+    <div class="modal center away-card">
+      <div class="away-ic">🌙</div>
+      <h2>While you were away</h2>
+      <p class="sub" id="away-sub"></p>
+      <div id="away-total" class="away-total">$0</div>
+      <div id="away-rows"></div>
+      <button id="away-close" class="btn primary">Back to work</button>
+    </div>
+  </div>
+
+  <!-- LIFE EVENT (BitLife-style) -->
+  <div id="life-modal" class="overlay hidden">
+    <div class="modal center life-card">
+      <div class="life-avatar" id="life-avatar"></div>
+      <div class="life-icon" id="life-icon"></div>
+      <div class="life-year" id="life-year"></div>
+      <p class="life-text" id="life-text"></p>
+      <div id="life-choices" class="life-choices"></div>
+      <div id="life-outcome" class="life-outcome hidden"></div>
+      <button id="life-continue" class="btn primary hidden">Continue</button>
+    </div>
+  </div>
+
+  <!-- CHARACTER CREATOR -->
+  <div id="creator-overlay" class="overlay hidden">
+    <div class="modal center">
+      <h2>Create your mogul</h2>
+      <div id="creator-preview"></div>
+      <input type="text" id="creator-name" maxlength="16" placeholder="Username">
+      <div id="creator-options"></div>
+      <button id="creator-done" class="btn primary">Enter the race</button>
+    </div>
+  </div>
+
+  <!-- ONBOARDING TOUR -->
+  <div id="tour-overlay" class="hidden">
+    <div id="tour-ring"></div>
+    <div id="tour-tip">
+      <h4 id="tour-title"></h4>
+      <p id="tour-text"></p>
+      <div class="tour-foot">
+        <div class="tour-dots" id="tour-dots"></div>
+        <div class="tour-btns">
+          <button id="tour-skip">Skip</button>
+          <button id="tour-next">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="rankup-overlay" class="hidden" aria-live="polite">
+    <div class="rankup-box">
+      <div class="ru-rays"></div>
+      <div class="ru-kicker">RANK UP</div>
+      <div class="ru-title" id="ru-title"></div>
+      <div class="ru-sub" id="ru-sub"></div>
+    </div>
+  </div>
+  <div id="swan-vignette" aria-hidden="true"></div>
+  <div id="confetti-layer" aria-hidden="true"></div>
+  <div id="ach-banner" role="status">
+    <span class="ab-emoji" id="ab-emoji"></span>
+    <div><div class="ab-kicker">Achievement unlocked</div><div class="ab-name" id="ab-name"></div><div class="ab-desc" id="ab-desc"></div></div>
+  </div>
+  <div id="toasts"></div>
+</div>
+
+<script src="js/data.js?v=17"></script>
+<script src="js/gfx.js?v=17"></script>
+<script src="js/sharecard.js?v=17"></script>
+<script src="js/worldgen.js?v=17"></script>
+<script src="js/engine.js?v=17"></script>
+<script src="js/audio.js?v=17"></script>
+<script src="js/ui.js?v=17"></script>
+<script src="js/main.js?v=17"></script>
+</body>
+</html>
